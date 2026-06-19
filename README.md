@@ -1,0 +1,139 @@
+# WaveScout
+
+WaveScout is an offline creator-led growth intelligence system for AI and startup products.
+
+It is designed to turn a trend wave into a qualified creator shortlist, then into a creator intelligence packet, content angle, proposal draft, and Notion-ready dry-run outreach payload.
+
+## Core Thesis
+
+More creators is not the goal. Qualified creators are the goal.
+
+A qualified creator is not just someone who talks about AI. A qualified creator has trend fit, buyer or user audience fit, comment-level intent, a credible content style, manageable risk, and a product angle that feels native to their work.
+
+## What WaveScout Does
+
+- Tracks offline/demo TrendWave records.
+- Imports creator, content, and comment samples manually.
+- Scores creator-market-product fit with deterministic heuristics.
+- Turns comments into audience and buyer-intent intelligence.
+- Infers likely audience segments.
+- Generates ranked content angles.
+- Drafts creator-specific proposals for human review.
+- Builds CreatorIntelligencePacket and OutreachPacket artifacts.
+- Produces Notion dry-run payloads.
+- Exposes safe MCP-style tools.
+
+## What WaveScout Does Not Do
+
+- No TikTok scraping.
+- No browser automation for TikTok.
+- No login, rate-limit, or CAPTCHA bypass.
+- No TikTok DM automation.
+- No mass messaging.
+- No automatic proposal sending.
+- No live TikTok API calls in V0.
+- No secret printing.
+- No `.env` changes.
+
+## Safety Model
+
+V0 defaults are offline and demo-first:
+
+- `WAVESCOUT_OFFLINE_MODE=true`
+- `WAVESCOUT_DEMO_MODE=true`
+- `WAVESCOUT_ALLOW_EXTERNAL_CALLS=false`
+- `NOTION_SYNC_CONFIRM=false`
+- `TIKTOK_OFFICIAL_API_ENABLED=false`
+
+All outreach is draft-only:
+
+- `send_allowed=false`
+- `approval_required=true`
+
+## Run The Demo
+
+```bash
+python scripts/demo_tiktok_growth_workflow.py
+```
+
+The demo prints a concise PASS summary and exports:
+
+```text
+artifacts/demo_creator_intelligence_packet.md
+```
+
+## Example Output
+
+```text
+WaveScout Demo: PASS
+External calls: false
+Notion write: false
+TikTok DM/send: false
+
+Top creators:
+1. @agentbuilderdaily - 94 high
+2. @aistackreview - 90 high
+3. @vibecodesam - 81 high
+
+Rejected:
+@genericchatgpttips - 13 reject
+@randomfitnesscreator - 0 reject
+```
+
+## Run Tests
+
+```bash
+python scripts/run_all_tests.py
+```
+
+The runner executes the demo workflow, all smoke tests, and compile checks.
+
+You can also run individual checks:
+
+```bash
+python scripts/test_creator_scoring.py
+python scripts/test_comment_intelligence.py
+python scripts/test_audience_analysis.py
+python scripts/test_notion_sync_dryrun.py
+python scripts/test_mcp_tools_import.py
+python -m compileall app scripts
+```
+
+## MCP Tools Overview
+
+WaveScout exposes local safe tools for:
+
+- listing and creating trend waves
+- manually importing creators, content, and comments
+- scoring creators for a wave
+- analyzing comments
+- inferring audience profiles
+- generating content angles
+- generating proposal drafts
+- building creator intelligence packets
+- building outreach packets
+- dry-running Notion sync
+- running a wave scout ranking
+
+The MCP server uses FastMCP if it is installed. Without FastMCP, the tool functions still import and run directly.
+
+## Project Layout
+
+```text
+app/
+  adapters/   offline and placeholder adapters
+  mcp/        MCP tool registry and optional server
+  models/     dataclass model layer
+  services/   scoring, analysis, packet, and sync logic
+data/         checked-in demo data
+docs/         product and demo documentation
+scripts/      CLI workflows and smoke tests
+artifacts/    generated local demo exports, ignored by git
+```
+
+## Future Roadmap
+
+See [docs/product/roadmap.md](docs/product/roadmap.md).
+
+The direction is a creator-led GTM operating system: trend -> creator -> content -> outreach -> performance -> learning, still human-approved and never spam automation.
+

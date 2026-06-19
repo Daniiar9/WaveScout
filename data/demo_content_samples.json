@@ -1,0 +1,196 @@
+[
+  {
+    "id": "content_agentbuilderdaily_1",
+    "creator_id": "creator_agentbuilderdaily",
+    "video_url": "https://www.tiktok.com/@agentbuilderdaily/video/1000000000000000011",
+    "title_or_caption": "I asked my CRM and Slack one question and got the answer back",
+    "transcript_or_summary": "Demo of an AI agent reading CRM notes, Slack updates, and Notion docs to answer what changed in a deal.",
+    "hashtags": [
+      "#AIAgents",
+      "#RevOps",
+      "#Automation"
+    ],
+    "topics": [
+      "AI agents",
+      "CRM",
+      "Slack",
+      "Notion",
+      "workflow automation"
+    ],
+    "format": "demo",
+    "views": 31200,
+    "likes": 2100,
+    "comments_count": 45,
+    "posted_at": "2026-06-10",
+    "notes": "Clear demo with concrete business context."
+  },
+  {
+    "id": "content_agentbuilderdaily_2",
+    "creator_id": "creator_agentbuilderdaily",
+    "video_url": "https://www.tiktok.com/@agentbuilderdaily/video/1000000000000000012",
+    "title_or_caption": "Stop copying updates between tools",
+    "transcript_or_summary": "Tutorial on using agents to summarize app data and prepare next-step workflows for operators.",
+    "hashtags": [
+      "#Automation",
+      "#SaaS",
+      "#AIAgents"
+    ],
+    "topics": [
+      "SaaS stack",
+      "operators",
+      "workflow automation"
+    ],
+    "format": "tutorial",
+    "views": 20800,
+    "likes": 1450,
+    "comments_count": 32,
+    "posted_at": "2026-06-14",
+    "notes": "Strong fit for connected workspace angle."
+  },
+  {
+    "id": "content_vibecodesam_1",
+    "creator_id": "creator_vibecodesam",
+    "video_url": "https://www.tiktok.com/@vibecodesam/video/1000000000000000021",
+    "title_or_caption": "Vibe coding an internal ops assistant",
+    "transcript_or_summary": "Tutorial that builds a small assistant to search app data, explain context, and trigger a workflow.",
+    "hashtags": [
+      "#VibeCoding",
+      "#AIWorkspace",
+      "#Automation"
+    ],
+    "topics": [
+      "vibe coding",
+      "AI workspace",
+      "internal tools",
+      "workflow automation"
+    ],
+    "format": "tutorial",
+    "views": 64000,
+    "likes": 4100,
+    "comments_count": 70,
+    "posted_at": "2026-06-08",
+    "notes": "Hands-on builder format."
+  },
+  {
+    "id": "content_aistackreview_1",
+    "creator_id": "creator_aistackreview",
+    "video_url": "https://www.tiktok.com/@aistackreview/video/1000000000000000031",
+    "title_or_caption": "The AI workspace category is getting real",
+    "transcript_or_summary": "Teardown comparing tools that connect Notion, Slack, Gmail, HubSpot, and docs so teams can ask questions across app data.",
+    "hashtags": [
+      "#AITools",
+      "#SaaS",
+      "#Automation"
+    ],
+    "topics": [
+      "AI workspace",
+      "SaaS stack",
+      "tool review",
+      "Notion",
+      "Slack",
+      "HubSpot"
+    ],
+    "format": "teardown",
+    "views": 78500,
+    "likes": 5600,
+    "comments_count": 88,
+    "posted_at": "2026-06-12",
+    "notes": "Direct category fit."
+  },
+  {
+    "id": "content_nocodefounderlab_1",
+    "creator_id": "creator_nocodefounderlab",
+    "video_url": "https://www.tiktok.com/@nocodefounderlab/video/1000000000000000041",
+    "title_or_caption": "No-code founder dashboard in one hour",
+    "transcript_or_summary": "Tutorial connecting Airtable, forms, and Slack for founder operating updates.",
+    "hashtags": [
+      "#NoCode",
+      "#FounderTools",
+      "#Automation"
+    ],
+    "topics": [
+      "no-code",
+      "founder tools",
+      "Slack",
+      "Airtable",
+      "automation"
+    ],
+    "format": "tutorial",
+    "views": 11800,
+    "likes": 760,
+    "comments_count": 28,
+    "posted_at": "2026-06-03",
+    "notes": "Adjacent but not always AI-specific."
+  },
+  {
+    "id": "content_startupautomator_1",
+    "creator_id": "creator_startupautomator",
+    "video_url": "https://www.tiktok.com/@startupautomator/video/1000000000000000051",
+    "title_or_caption": "Founders should stop doing this workflow manually",
+    "transcript_or_summary": "Founder POV on CRM updates, manual Slack follow-ups, and turning repeated tasks into automations.",
+    "hashtags": [
+      "#Automation",
+      "#Startup",
+      "#Agency"
+    ],
+    "topics": [
+      "startup automation",
+      "CRM",
+      "Slack",
+      "agency owners"
+    ],
+    "format": "founder_pov",
+    "views": 9600,
+    "likes": 610,
+    "comments_count": 20,
+    "posted_at": "2026-06-09",
+    "notes": "Useful but less specific to AI workspace."
+  },
+  {
+    "id": "content_randomfitnesscreator_1",
+    "creator_id": "creator_randomfitnesscreator",
+    "video_url": "https://www.tiktok.com/@randomfitnesscreator/video/1000000000000000061",
+    "title_or_caption": "My 5am gym routine",
+    "transcript_or_summary": "Lifestyle fitness routine, meal prep, and gym motivation.",
+    "hashtags": [
+      "#Fitness",
+      "#Gym",
+      "#Lifestyle"
+    ],
+    "topics": [
+      "fitness",
+      "meal prep",
+      "lifestyle"
+    ],
+    "format": "other",
+    "views": 150000,
+    "likes": 12000,
+    "comments_count": 102,
+    "posted_at": "2026-06-15",
+    "notes": "Unrelated to product."
+  },
+  {
+    "id": "content_genericchatgpttips_1",
+    "creator_id": "creator_genericchatgpttips",
+    "video_url": "https://www.tiktok.com/@genericchatgpttips/video/1000000000000000071",
+    "title_or_caption": "5 secret ChatGPT prompts that feel insane",
+    "transcript_or_summary": "Broad prompt tips with viral framing and little workflow specificity.",
+    "hashtags": [
+      "#ChatGPT",
+      "#AIHacks",
+      "#AITips"
+    ],
+    "topics": [
+      "ChatGPT tips",
+      "AI hacks",
+      "prompts"
+    ],
+    "format": "hot_take",
+    "views": 99000,
+    "likes": 6400,
+    "comments_count": 76,
+    "posted_at": "2026-06-11",
+    "notes": "Large but shallow AI audience."
+  }
+]
+

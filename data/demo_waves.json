@@ -1,0 +1,48 @@
+[
+  {
+    "id": "wave_talk_to_apps",
+    "name": "Talk to your apps / AI workspace / connected SaaS stack",
+    "category": "AI workspace",
+    "keywords": [
+      "talk to your apps",
+      "AI workspace",
+      "connected SaaS stack",
+      "app data",
+      "workflow automation",
+      "agents",
+      "CRM",
+      "Notion",
+      "Slack"
+    ],
+    "hashtags": [
+      "#AIWorkspace",
+      "#Automation",
+      "#SaaS",
+      "#AIAgents",
+      "#RevOps"
+    ],
+    "adjacent_topics": [
+      "vibe coding",
+      "AI agents",
+      "business automation",
+      "RevOps",
+      "knowledge work",
+      "founder tools"
+    ],
+    "description": "Creators are showing how AI can connect scattered SaaS context and turn it into useful answers or workflows.",
+    "product_relevance": "The product is directly aligned because it connects apps so users can ask questions across their stack and turn answers into workflows.",
+    "why_now": "Teams adopted many SaaS tools, AI expectations are rising, and creators are moving from generic ChatGPT tips to practical workflow demos.",
+    "example_video_urls": [
+      "https://www.tiktok.com/@demo/video/1000000000000000001"
+    ],
+    "example_creator_handles": [
+      "@agentbuilderdaily",
+      "@vibecodesam",
+      "@aistackreview"
+    ],
+    "confidence": 0.88,
+    "created_at": "2026-06-19T00:00:00+00:00",
+    "updated_at": "2026-06-19T00:00:00+00:00"
+  }
+]
+

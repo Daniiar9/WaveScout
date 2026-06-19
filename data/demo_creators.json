@@ -1,0 +1,235 @@
+[
+  {
+    "id": "creator_agentbuilderdaily",
+    "handle": "@agentbuilderdaily",
+    "display_name": "Agent Builder Daily",
+    "profile_url": "https://www.tiktok.com/@agentbuilderdaily",
+    "bio": "Daily AI agent demos for founders, RevOps, and builders connecting SaaS workflows.",
+    "follower_count": 18200,
+    "avg_views": 24000,
+    "avg_likes": 1600,
+    "engagement_notes": "Comments often ask for concrete setup details and app integrations.",
+    "categories": [
+      "AI agents",
+      "automation",
+      "RevOps",
+      "founder tools"
+    ],
+    "hashtags_used": [
+      "#AIAgents",
+      "#Automation",
+      "#SaaS",
+      "#RevOps"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@agentbuilderdaily/video/1000000000000000011"
+    ],
+    "recent_video_summaries": [
+      "Demo of an agent answering CRM questions using Slack and Notion context."
+    ],
+    "email_or_contact": "agentbuilderdaily@example.com",
+    "region": "US",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_vibecodesam",
+    "handle": "@vibecodesam",
+    "display_name": "Vibe Code Sam",
+    "profile_url": "https://www.tiktok.com/@vibecodesam",
+    "bio": "Builder videos on vibe coding, AI workflows, internal tools, and startup automation.",
+    "follower_count": 41000,
+    "avg_views": 51000,
+    "avg_likes": 3200,
+    "engagement_notes": "Audience asks how to adapt demos for small teams and client work.",
+    "categories": [
+      "vibe coding",
+      "builders",
+      "startup automation",
+      "AI workspace"
+    ],
+    "hashtags_used": [
+      "#VibeCoding",
+      "#AIWorkspace",
+      "#StartupTools",
+      "#Automation"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@vibecodesam/video/1000000000000000021"
+    ],
+    "recent_video_summaries": [
+      "Tutorial showing how to turn messy SaaS data into a working internal workflow."
+    ],
+    "email_or_contact": "vibecodesam@example.com",
+    "region": "US",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_aistackreview",
+    "handle": "@aistackreview",
+    "display_name": "AI Stack Review",
+    "profile_url": "https://www.tiktok.com/@aistackreview",
+    "bio": "Reviews AI tools for founders, operators, and agency owners. Practical demos over hype.",
+    "follower_count": 76000,
+    "avg_views": 68000,
+    "avg_likes": 4700,
+    "engagement_notes": "Audience compares tools and asks whether workflows work with existing stacks.",
+    "categories": [
+      "AI tool reviews",
+      "founder tools",
+      "SaaS stack",
+      "agency owners"
+    ],
+    "hashtags_used": [
+      "#AITools",
+      "#SaaS",
+      "#FounderTools",
+      "#Automation"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@aistackreview/video/1000000000000000031"
+    ],
+    "recent_video_summaries": [
+      "Comparison of AI workspace tools that connect Notion, Slack, Gmail, and CRM data."
+    ],
+    "email_or_contact": "aistackreview@example.com",
+    "region": "UK",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_nocodefounderlab",
+    "handle": "@nocodefounderlab",
+    "display_name": "No-Code Founder Lab",
+    "profile_url": "https://www.tiktok.com/@nocodefounderlab",
+    "bio": "No-code systems for founders, Airtable builders, and early teams.",
+    "follower_count": 12800,
+    "avg_views": 9700,
+    "avg_likes": 620,
+    "engagement_notes": "Good tutorial audience, slightly more no-code than AI workspace focused.",
+    "categories": [
+      "no-code",
+      "founders",
+      "automation",
+      "Airtable"
+    ],
+    "hashtags_used": [
+      "#NoCode",
+      "#FounderTools",
+      "#Automation"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@nocodefounderlab/video/1000000000000000041"
+    ],
+    "recent_video_summaries": [
+      "Tutorial for routing form responses into Airtable and Slack."
+    ],
+    "email_or_contact": "nocodefounderlab@example.com",
+    "region": "US",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_startupautomator",
+    "handle": "@startupautomator",
+    "display_name": "Startup Automator",
+    "profile_url": "https://www.tiktok.com/@startupautomator",
+    "bio": "Automation ideas for lean startup teams and agencies.",
+    "follower_count": 9500,
+    "avg_views": 8200,
+    "avg_likes": 530,
+    "engagement_notes": "Some relevant questions, but content is broad and sometimes Zapier-heavy.",
+    "categories": [
+      "startup automation",
+      "agency owners",
+      "Zapier",
+      "operations"
+    ],
+    "hashtags_used": [
+      "#Automation",
+      "#Startup",
+      "#Agency"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@startupautomator/video/1000000000000000051"
+    ],
+    "recent_video_summaries": [
+      "Founder POV on reducing manual workflow setup across CRM and docs."
+    ],
+    "email_or_contact": "startupautomator@example.com",
+    "region": "CA",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_randomfitnesscreator",
+    "handle": "@randomfitnesscreator",
+    "display_name": "Random Fitness Creator",
+    "profile_url": "https://www.tiktok.com/@randomfitnesscreator",
+    "bio": "Fitness routines, gym discipline, food prep, and lifestyle motivation.",
+    "follower_count": 210000,
+    "avg_views": 120000,
+    "avg_likes": 8700,
+    "engagement_notes": "High reach, unrelated audience for AI workspace.",
+    "categories": [
+      "fitness",
+      "food prep",
+      "lifestyle"
+    ],
+    "hashtags_used": [
+      "#Fitness",
+      "#Gym",
+      "#Lifestyle"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@randomfitnesscreator/video/1000000000000000061"
+    ],
+    "recent_video_summaries": [
+      "Morning gym routine and nutrition plan."
+    ],
+    "email_or_contact": "randomfitnesscreator@example.com",
+    "region": "US",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  },
+  {
+    "id": "creator_genericchatgpttips",
+    "handle": "@genericchatgpttips",
+    "display_name": "Generic ChatGPT Tips",
+    "profile_url": "https://www.tiktok.com/@genericchatgpttips",
+    "bio": "Viral ChatGPT hacks, AI secrets, and daily prompts.",
+    "follower_count": 156000,
+    "avg_views": 99000,
+    "avg_likes": 6100,
+    "engagement_notes": "Large AI-curious audience, but comments are mostly generic hype.",
+    "categories": [
+      "ChatGPT tips",
+      "AI hacks",
+      "viral AI"
+    ],
+    "hashtags_used": [
+      "#ChatGPT",
+      "#AIHacks",
+      "#AITips"
+    ],
+    "recent_video_urls": [
+      "https://www.tiktok.com/@genericchatgpttips/video/1000000000000000071"
+    ],
+    "recent_video_summaries": [
+      "List of prompts to make ChatGPT sound smarter."
+    ],
+    "email_or_contact": "genericchatgpttips@example.com",
+    "region": "US",
+    "language": "en",
+    "fit_status": "new",
+    "source": "demo"
+  }
+]
+
