@@ -23,22 +23,25 @@ def generate_creator_proposal(
             ),
         )
     name = creator.display_name or creator.handle
-    topic = ", ".join(creator.categories[:2]) if creator.categories else trend_wave.name
+    topic = _theme_phrase(creator)
     opening = f"Draft for {creator.handle}: {recommended_angle.title}"
     product_phrase = _lower_first(product_context).rstrip(".")
-    angle_sentence = _as_sentence(recommended_angle.title)
+    angle = recommended_angle.title.strip()
+    insight = fit_score.best_angle.rstrip(".")
     dm = (
-        f"Hey {name} - saw your videos around {topic}. We're building {product_phrase}, "
-        f"which fits the wave you've been covering around {trend_wave.name}. "
-        f"I had an angle that might work for your audience: {angle_sentence} "
-        "Would you be open to taking a look?"
+        f"Hey - saw your videos around {topic}.\n\n"
+        f"We're building in that lane: {product_phrase}.\n\n"
+        f"The audience signal is practical: {insight}.\n\n"
+        f"One native angle:\n\n\"{angle}\"\n\n"
+        "Open to taking a look to see if it's worth a short demo?"
     )
     email = (
         f"Subject: Creator idea around {trend_wave.name}\n\n"
         f"Hey {name},\n\n"
-        f"Saw your recent content around {topic}. We're building {product_phrase}. "
-        f"The angle I think could fit your audience is: {angle_sentence}\n\n"
-        "No pressure to post. Would you be open to reviewing the product and seeing whether the angle feels native to your content?\n\n"
+        f"Saw your recent content around {topic}. We're building a tool in that lane: {product_phrase}.\n\n"
+        f"The audience signal I noticed: {insight}.\n\n"
+        f"One angle that could fit your format is: \"{angle}\"\n\n"
+        "Would you be open to reviewing it and deciding whether it is worth a short demo? No pressure to post.\n\n"
         "Thanks."
     )
     return CreatorProposal(
@@ -59,10 +62,8 @@ def _lower_first(value: str) -> str:
     return value[:1].lower() + value[1:] if value else value
 
 
-def _as_sentence(value: str) -> str:
-    stripped = value.strip()
-    if not stripped:
-        return ""
-    if stripped[-1] in ".!?":
-        return stripped
-    return f"{stripped}."
+def _theme_phrase(creator: CreatorCandidate) -> str:
+    themes = creator.categories[:2] or creator.hashtags_used[:2]
+    if not themes:
+        return "the creator-led AI workflow space"
+    return ", ".join(theme.lstrip("#") for theme in themes)

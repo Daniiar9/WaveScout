@@ -1,0 +1,4 @@
+creator_handle,video_url,comment_text,notes
+@exampleagentbuilder,https://www.tiktok.com/@exampleagentbuilder/video/1001,"Can this connect to Notion?","High-intent tool question"
+exampleworkflowreview,https://www.tiktok.com/@exampleworkflowreview/video/1002,"How would this work for a small agency?","Use-case question"
+@examplebroadtips,https://www.tiktok.com/@examplebroadtips/video/1003,"AI is crazy","Low-quality hype example"

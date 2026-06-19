@@ -117,6 +117,20 @@ WaveScout exposes local safe tools for:
 
 The MCP server uses FastMCP if it is installed. Without FastMCP, the tool functions still import and run directly.
 
+## Real Creator Import Workflow
+
+Use the CSV templates in [templates](templates) and follow [docs/workflows/real_creator_import_workflow.md](docs/workflows/real_creator_import_workflow.md) to manually research 20 creators, import the data, score them, and export one packet per qualified creator.
+
+Key commands:
+
+```bash
+python scripts/import_creators_csv.py --input data/local_creators.csv --out data/imported_creators.json
+python scripts/import_content_samples_csv.py --input data/local_content_samples.csv --out data/imported_content_samples.json
+python scripts/import_comments_csv.py --input data/local_comments.csv --out data/imported_comments.json
+python scripts/score_imported_creators.py --top 5 --out artifacts/imported_creator_rankings.md
+python scripts/export_creator_packets.py --top 10 --out-dir artifacts/creator_packets
+```
+
 ## Project Layout
 
 ```text
@@ -136,4 +150,3 @@ artifacts/    generated local demo exports, ignored by git
 See [docs/product/roadmap.md](docs/product/roadmap.md).
 
 The direction is a creator-led GTM operating system: trend -> creator -> content -> outreach -> performance -> learning, still human-approved and never spam automation.
-

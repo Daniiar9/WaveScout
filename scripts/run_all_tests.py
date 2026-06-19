@@ -15,6 +15,7 @@ COMMANDS = [
     ["scripts/test_audience_analysis.py"],
     ["scripts/test_notion_sync_dryrun.py"],
     ["scripts/test_mcp_tools_import.py"],
+    ["scripts/test_real_creator_import_workflow.py"],
     ["-m", "compileall", "app", "scripts"],
 ]
 
@@ -32,4 +33,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
