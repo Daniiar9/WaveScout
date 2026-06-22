@@ -22,6 +22,14 @@ from app.services.outreach_packet_builder import (
 from app.services.outreach_packet_builder import build_outreach_packet as build_outreach_service
 from app.services.outreach_packet_builder import creator_packet_contract
 from app.services.proposal_generator import generate_creator_proposal as generate_proposal_service
+from app.services.product_intelligence import build_product_intelligence_from_text, build_product_intelligence_from_url
+from app.services.trend_wave_mapper import build_trend_wave_map as build_trend_wave_map_service
+from app.services.creator_search_strategy import build_creator_search_strategy as build_creator_search_strategy_service
+from app.services.owned_tiktok_analysis import analyze_owned_tiktok_profile
+from app.services.scout_planner import (
+    build_scout_run_plan as build_scout_run_plan_service,
+    run_discovery_dry_run as run_discovery_dry_run_service,
+)
 from app.services.storage import LocalJSONStorage
 from app.services.tiktok_capability_service import (
     build_oauth_setup_instructions,
@@ -241,6 +249,58 @@ def tiktok_content_post_dry_run(payload: dict | None = None) -> dict:
     return result
 
 
+def build_product_intelligence_brief(
+    product_text: str = "",
+    product_url: str = "",
+    allow_fetch: bool = False,
+) -> dict:
+    brief = (
+        build_product_intelligence_from_text(product_text, product_url or None)
+        if product_text
+        else build_product_intelligence_from_url(product_url, allow_fetch=allow_fetch)
+    )
+    return {"offline": True, "external_calls_made": False, "safety_status": _planner_safety(), "product_brief": to_plain_dict(brief)}
+
+
+def build_trend_wave_map(product_text: str, product_url: str = "") -> dict:
+    brief = build_product_intelligence_from_text(product_text, product_url or None)
+    wave_map = build_trend_wave_map_service(brief)
+    return {"offline": True, "external_calls_made": False, "safety_status": _planner_safety(), "wave_map": to_plain_dict(wave_map)}
+
+
+def build_creator_search_strategy(product_text: str, product_url: str = "") -> dict:
+    brief = build_product_intelligence_from_text(product_text, product_url or None)
+    wave_map = build_trend_wave_map_service(brief)
+    strategy = build_creator_search_strategy_service(brief, wave_map)
+    return {"offline": True, "external_calls_made": False, "safety_status": _planner_safety(), "search_strategy": to_plain_dict(strategy)}
+
+
+def analyze_owned_tiktok_profile_dry_run(handle: str, comments: list[str] | None = None) -> dict:
+    profile = analyze_owned_tiktok_profile(handle, comments=comments or [])
+    return {"offline": True, "external_calls_made": False, "safety_status": _planner_safety(), "owned_tiktok_profile": to_plain_dict(profile)}
+
+
+def build_scout_run_plan(
+    product_text: str = "",
+    product_url: str = "",
+    owned_tiktok_handle: str = "",
+    allow_fetch: bool = False,
+) -> dict:
+    plan = build_scout_run_plan_service(
+        product_url=product_url or None,
+        product_text=product_text or None,
+        owned_tiktok_handle=owned_tiktok_handle or None,
+        allow_fetch=allow_fetch,
+    )
+    return {"offline": True, "external_calls_made": False, "safety_status": plan.safety_status, "scout_run_plan": to_plain_dict(plan)}
+
+
+def run_discovery_dry_run(product_text: str = DEFAULT_PRODUCT_CONTEXT, limit: int = 25) -> dict:
+    plan = build_scout_run_plan_service(product_text=product_text)
+    results = run_discovery_dry_run_service(plan, limit=limit)
+    return {"offline": True, "external_calls_made": False, "safety_status": plan.safety_status, "discovery_results": results}
+
+
 TOOL_REGISTRY: dict[str, Callable] = {
     "list_trend_waves": list_trend_waves,
     "create_trend_wave": create_trend_wave,
@@ -263,6 +323,12 @@ TOOL_REGISTRY: dict[str, Callable] = {
     "tiktok_display_user_info_dry_run": tiktok_display_user_info_dry_run,
     "tiktok_research_query_dry_run": tiktok_research_query_dry_run,
     "tiktok_content_post_dry_run": tiktok_content_post_dry_run,
+    "build_product_intelligence_brief": build_product_intelligence_brief,
+    "build_trend_wave_map": build_trend_wave_map,
+    "build_creator_search_strategy": build_creator_search_strategy,
+    "analyze_owned_tiktok_profile_dry_run": analyze_owned_tiktok_profile_dry_run,
+    "build_scout_run_plan": build_scout_run_plan,
+    "run_discovery_dry_run": run_discovery_dry_run,
 }
 
 
@@ -302,3 +368,14 @@ def _require_wave(storage: LocalJSONStorage, wave: str):
     if not trend_wave:
         raise ValueError(f"Trend wave not found in local data: {wave}")
     return trend_wave
+
+
+def _planner_safety() -> dict:
+    return {
+        "external_calls": False,
+        "product_fetch": False,
+        "tiktok_live_calls": False,
+        "tiktok_scraping": False,
+        "tiktok_dm_send": False,
+        "message_sending": False,
+    }

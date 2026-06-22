@@ -158,6 +158,19 @@ python scripts/build_tiktok_oauth_url.py --scopes "user.info.basic,video.list"
 
 The OAuth helper prints setup guidance only. It does not open a browser, exchange tokens, or store tokens.
 
+## Product-Led Scout Planner
+
+WaveScout can now start from product text or a product URL placeholder and generate a creator hunting strategy before manual research begins.
+
+```bash
+python scripts/plan_creator_scout.py --product-text "An AI workspace that connects your apps so you can ask questions across your stack and turn answers into workflows." --owned-tiktok "@demoapp" --out artifacts/scout_plan.md
+python scripts/run_discovery_dryrun.py --limit 25 --out artifacts/discovery_dryrun.md
+```
+
+The planner exports a Product Intelligence Brief, Trend Wave Map, Creator Search Strategy, optional owned TikTok analysis, dry-run discovery payloads, and next safe actions. It does not scrape TikTok, fetch TikTok live, automate browsing, send DMs, or send messages.
+
+See [docs/product/product_led_scout_planner.md](docs/product/product_led_scout_planner.md) and [docs/workflows/product_led_scout_workflow.md](docs/workflows/product_led_scout_workflow.md).
+
 ## Project Layout
 
 ```text

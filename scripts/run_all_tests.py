@@ -19,6 +19,12 @@ COMMANDS = [
     ["scripts/test_tiktok_capability_service.py"],
     ["scripts/test_tiktok_adapters_dryrun.py"],
     ["scripts/test_tiktok_mcp_tools.py"],
+    ["scripts/test_product_intelligence.py"],
+    ["scripts/test_trend_wave_mapper.py"],
+    ["scripts/test_creator_search_strategy.py"],
+    ["scripts/test_owned_tiktok_analysis.py"],
+    ["scripts/test_scout_planner.py"],
+    ["scripts/test_discovery_dryrun.py"],
     ["-m", "compileall", "app", "scripts"],
 ]
 
