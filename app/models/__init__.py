@@ -8,9 +8,12 @@ from app.models.creator_intelligence_packet import CreatorIntelligencePacket
 from app.models.creator_proposal import CreatorProposal
 from app.models.creator_search_strategy import CreatorSearchStrategy
 from app.models.discovery_candidate import DiscoveryCandidate
+from app.models.discovery_provider import DiscoveryCandidateNormalized, DiscoveryProvider, DiscoveryRunResult
+from app.models.growth_brief import GrowthBrief
 from app.models.notion_sync_result import NotionSyncResult
 from app.models.owned_tiktok_profile import OwnedTikTokProfile
 from app.models.outreach_packet import OutreachPacket
+from app.models.performance_feedback import PerformanceFeedback
 from app.models.product_intelligence import ProductIntelligenceBrief, TrendWaveMap
 from app.models.scout_run_plan import ScoutRunPlan
 from app.models.trend_wave import TrendWave
@@ -32,9 +35,14 @@ __all__ = [
     "CreatorProposal",
     "CreatorSearchStrategy",
     "DiscoveryCandidate",
+    "DiscoveryCandidateNormalized",
+    "DiscoveryProvider",
+    "DiscoveryRunResult",
+    "GrowthBrief",
     "NotionSyncResult",
     "OwnedTikTokProfile",
     "OutreachPacket",
+    "PerformanceFeedback",
     "ProductIntelligenceBrief",
     "ScoutRunPlan",
     "TrendWaveMap",

@@ -25,6 +25,13 @@ COMMANDS = [
     ["scripts/test_owned_tiktok_analysis.py"],
     ["scripts/test_scout_planner.py"],
     ["scripts/test_discovery_dryrun.py"],
+    ["scripts/test_discovery_provider_layer.py"],
+    ["scripts/test_discovery_candidate_normalizer.py"],
+    ["scripts/test_growth_engine.py"],
+    ["scripts/test_growth_brief_renderer.py"],
+    ["scripts/test_notion_pipeline_builder.py"],
+    ["scripts/test_feedback_loop.py"],
+    ["scripts/test_growth_engine_mcp_tools.py"],
     ["-m", "compileall", "app", "scripts"],
 ]
 

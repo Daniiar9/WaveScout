@@ -30,6 +30,16 @@ from app.services.scout_planner import (
     build_scout_run_plan as build_scout_run_plan_service,
     run_discovery_dry_run as run_discovery_dry_run_service,
 )
+from app.services.discovery_provider_service import (
+    check_discovery_provider as check_discovery_provider_service,
+    list_discovery_providers as list_discovery_providers_service,
+    run_discovery_provider_dry_run as run_discovery_provider_dry_run_service,
+)
+from app.services.discovery_candidate_normalizer import normalize_discovery_candidate
+from app.services.growth_brief_renderer import render_growth_brief_markdown
+from app.services.growth_engine import run_growth_engine
+from app.services.notion_pipeline_builder import build_notion_pipeline_payloads
+from app.services.feedback_loop import ingest_feedback_manual, summarize_feedback
 from app.services.storage import LocalJSONStorage
 from app.services.tiktok_capability_service import (
     build_oauth_setup_instructions,
@@ -301,6 +311,64 @@ def run_discovery_dry_run(product_text: str = DEFAULT_PRODUCT_CONTEXT, limit: in
     return {"offline": True, "external_calls_made": False, "safety_status": plan.safety_status, "discovery_results": results}
 
 
+def list_discovery_providers() -> dict:
+    providers = list_discovery_providers_service(load_config())
+    return {"offline": True, "external_calls_made": False, "providers": to_plain_dict(providers)}
+
+
+def check_discovery_provider(provider_name: str) -> dict:
+    provider = check_discovery_provider_service(provider_name, load_config())
+    return {"offline": True, "external_calls_made": False, "provider": to_plain_dict(provider)}
+
+
+def run_discovery_provider_dry_run(provider_name: str, product_text: str = DEFAULT_PRODUCT_CONTEXT, limit: int = 25) -> dict:
+    plan = build_scout_run_plan_service(product_text=product_text)
+    provider = check_discovery_provider_service(provider_name, load_config())
+    result = run_discovery_provider_dry_run_service(provider, plan.search_strategy, limit=limit, scout_plan_id=plan.id)
+    return {"offline": True, "external_calls_made": False, "safety_status": plan.safety_status, "discovery_result": to_plain_dict(result)}
+
+
+def normalize_discovery_candidates(candidates: list[dict]) -> dict:
+    normalized = [normalize_discovery_candidate(candidate) for candidate in candidates]
+    return {"offline": True, "external_calls_made": False, "normalized_candidates": to_plain_dict(normalized)}
+
+
+def run_growth_engine_dry_run(product_text: str = DEFAULT_PRODUCT_CONTEXT, owned_tiktok: str = "") -> dict:
+    growth_brief = run_growth_engine(product_text=product_text, owned_tiktok=owned_tiktok or None)
+    return {
+        "offline": True,
+        "external_calls_made": False,
+        "safety_status": growth_brief.safety_status,
+        "growth_brief": to_plain_dict(growth_brief),
+    }
+
+
+def build_growth_brief(product_text: str = DEFAULT_PRODUCT_CONTEXT) -> dict:
+    growth_brief = run_growth_engine(product_text=product_text)
+    return {
+        "offline": True,
+        "external_calls_made": False,
+        "markdown": render_growth_brief_markdown(growth_brief),
+        "growth_brief": to_plain_dict(growth_brief),
+    }
+
+
+def build_notion_pipeline_payload(product_text: str = DEFAULT_PRODUCT_CONTEXT) -> dict:
+    growth_brief = run_growth_engine(product_text=product_text)
+    payload = build_notion_pipeline_payloads(growth_brief)
+    return {"offline": True, "external_calls_made": False, "notion_write": False, "payload": payload}
+
+
+def ingest_performance_feedback_manual(feedback: dict) -> dict:
+    item = ingest_feedback_manual(feedback)
+    return {"offline": True, "external_calls_made": False, "feedback": to_plain_dict(item)}
+
+
+def summarize_performance_feedback(feedback_items: list[dict]) -> dict:
+    summary = summarize_feedback(feedback_items)
+    return {"offline": True, "external_calls_made": False, "summary": summary}
+
+
 TOOL_REGISTRY: dict[str, Callable] = {
     "list_trend_waves": list_trend_waves,
     "create_trend_wave": create_trend_wave,
@@ -329,6 +397,15 @@ TOOL_REGISTRY: dict[str, Callable] = {
     "analyze_owned_tiktok_profile_dry_run": analyze_owned_tiktok_profile_dry_run,
     "build_scout_run_plan": build_scout_run_plan,
     "run_discovery_dry_run": run_discovery_dry_run,
+    "list_discovery_providers": list_discovery_providers,
+    "check_discovery_provider": check_discovery_provider,
+    "run_discovery_provider_dry_run": run_discovery_provider_dry_run,
+    "normalize_discovery_candidates": normalize_discovery_candidates,
+    "run_growth_engine_dry_run": run_growth_engine_dry_run,
+    "build_growth_brief": build_growth_brief,
+    "build_notion_pipeline_payload": build_notion_pipeline_payload,
+    "ingest_performance_feedback_manual": ingest_performance_feedback_manual,
+    "summarize_performance_feedback": summarize_performance_feedback,
 }
 
 

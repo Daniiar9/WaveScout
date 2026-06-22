@@ -171,6 +171,16 @@ The planner exports a Product Intelligence Brief, Trend Wave Map, Creator Search
 
 See [docs/product/product_led_scout_planner.md](docs/product/product_led_scout_planner.md) and [docs/workflows/product_led_scout_workflow.md](docs/workflows/product_led_scout_workflow.md).
 
+## End-to-End Growth Engine
+
+The Growth Engine connects product intelligence, trend mapping, creator search strategy, dry-run discovery providers, candidate normalization, creator packets, Notion dry-run payloads, and feedback placeholders into one safe workflow.
+
+```bash
+python scripts/run_growth_engine.py --product-text "An AI workspace that connects your apps so you can ask questions across your stack and turn answers into workflows." --owned-tiktok "@demoapp" --out artifacts/growth_brief.md --json-out artifacts/growth_brief.json
+```
+
+The engine is dry-run by default. It does not scrape TikTok, automate browsers, send DMs, send messages, live-post, or write to Notion unless future explicit confirmation paths are added and reviewed.
+
 ## Project Layout
 
 ```text
