@@ -24,11 +24,18 @@ def main() -> None:
     parser.add_argument("--imported-comments", default="")
     parser.add_argument("--discovery-limit", type=int, default=25)
     parser.add_argument("--top-creators", type=int, default=5)
+    parser.add_argument(
+        "--discovery-provider",
+        choices=["dry_run_search", "exa", "serp", "tiktok_research", "manual"],
+        default="dry_run_search",
+    )
     parser.add_argument("--out", default="artifacts/growth_brief.md")
     parser.add_argument("--json-out", default="artifacts/growth_brief.json")
     parser.add_argument("--dry-run", action="store_true", default=True)
     parser.add_argument("--allow-fetch", action="store_true", default=False)
     parser.add_argument("--allow-external-discovery", action="store_true", default=False)
+    parser.add_argument("--allow-tiktok-live", action="store_true", default=False)
+    parser.add_argument("--allow-owned-tiktok-live", action="store_true", default=False)
     args = parser.parse_args()
 
     if args.product_url and not args.product_text and not args.allow_fetch:
@@ -45,7 +52,10 @@ def main() -> None:
         top_creators=args.top_creators,
         dry_run=args.dry_run,
         allow_fetch=args.allow_fetch,
+        discovery_provider=args.discovery_provider,
         allow_external_discovery=args.allow_external_discovery,
+        allow_tiktok_live=args.allow_tiktok_live,
+        allow_owned_tiktok_live=args.allow_owned_tiktok_live,
     )
     out_path = Path(args.out)
     json_path = Path(args.json_out)
@@ -66,10 +76,13 @@ def main() -> None:
     for wave in growth_brief.wave_map.primary_waves[:6]:
         print(f"* {wave}")
     print("\nDiscovery:")
+    print(f"* selected provider: {growth_brief.discovery_summary['selected_provider']}")
     print(f"* providers checked: {growth_brief.discovery_summary['providers_checked']}")
     print(f"* dry-run payloads: {growth_brief.discovery_summary['dry_run_payloads']}")
     print(f"* candidates from manual import: {growth_brief.discovery_summary['candidates_from_manual_import']}")
     print(f"* candidates needing enrichment: {growth_brief.discovery_summary['candidates_needing_enrichment']}")
+    live_status = growth_brief.discovery_summary["live_discovery_status"]
+    print(f"* live discovery: {live_status['provider']} / {live_status['blocked_reason']}")
     print("\nTop recommendations:")
     for action in growth_brief.next_safe_actions[:5]:
         print(f"* {action}")

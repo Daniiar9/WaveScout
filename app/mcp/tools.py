@@ -36,11 +36,22 @@ from app.services.discovery_provider_service import (
     run_discovery_provider_dry_run as run_discovery_provider_dry_run_service,
 )
 from app.services.discovery_candidate_normalizer import normalize_discovery_candidate
+from app.services.live_discovery_gate import (
+    build_live_discovery_request as build_live_discovery_request_service,
+    check_live_discovery_provider as check_live_discovery_provider_service,
+    run_live_discovery_request,
+)
 from app.services.growth_brief_renderer import render_growth_brief_markdown
 from app.services.growth_engine import run_growth_engine
 from app.services.notion_pipeline_builder import build_notion_pipeline_payloads
 from app.services.feedback_loop import ingest_feedback_manual, summarize_feedback
 from app.services.storage import LocalJSONStorage
+from app.services.tiktok_oauth_service import (
+    build_tiktok_oauth_url as build_tiktok_oauth_url_service,
+    check_tiktok_oauth_config as check_tiktok_oauth_config_service,
+)
+from app.services.tiktok_owned_account_live import check_tiktok_owned_account_live as check_tiktok_owned_account_live_service
+from app.services.tiktok_research_discovery import check_tiktok_research_live as check_tiktok_research_live_service
 from app.services.tiktok_capability_service import (
     build_oauth_setup_instructions,
     build_tiktok_capability_report,
@@ -328,6 +339,64 @@ def run_discovery_provider_dry_run(provider_name: str, product_text: str = DEFAU
     return {"offline": True, "external_calls_made": False, "safety_status": plan.safety_status, "discovery_result": to_plain_dict(result)}
 
 
+def build_live_discovery_request(
+    product_text: str = DEFAULT_PRODUCT_CONTEXT,
+    provider: str = "dry_run_search",
+    limit: int = 25,
+) -> dict:
+    plan = build_scout_run_plan_service(product_text=product_text)
+    request = build_live_discovery_request_service(
+        plan.search_strategy,
+        provider=provider,
+        limit=limit,
+        allow_external=False,
+        dry_run=True,
+    )
+    return {"offline": True, "external_calls_made": False, "live_discovery_request": to_plain_dict(request)}
+
+
+def run_live_discovery_dry_run(
+    product_text: str = DEFAULT_PRODUCT_CONTEXT,
+    provider: str = "exa",
+    limit: int = 25,
+) -> dict:
+    plan = build_scout_run_plan_service(product_text=product_text)
+    request = build_live_discovery_request_service(
+        plan.search_strategy,
+        provider=provider,
+        limit=limit,
+        allow_external=False,
+        dry_run=True,
+    )
+    response = run_live_discovery_request(request, load_config())
+    return {"offline": True, "external_calls_made": False, "live_discovery_response": to_plain_dict(response)}
+
+
+def check_live_discovery_provider(provider: str = "exa") -> dict:
+    status = check_live_discovery_provider_service(provider, load_config(), allow_external=False)
+    return {"offline": True, "external_calls_made": False, "provider_status": status}
+
+
+def build_tiktok_oauth_url(requested_scopes: str = "user.info.basic,video.list") -> dict:
+    setup = build_tiktok_oauth_url_service(requested_scopes, load_config())
+    return {"offline": True, "external_calls_made": False, "oauth_setup": setup}
+
+
+def check_tiktok_oauth_config(requested_scopes: str = "user.info.basic,video.list") -> dict:
+    status = check_tiktok_oauth_config_service(requested_scopes, load_config())
+    return {"offline": True, "external_calls_made": False, "oauth_config": status}
+
+
+def check_tiktok_owned_account_live(handle: str = "@owned_account") -> dict:
+    status = check_tiktok_owned_account_live_service(load_config(), allow_tiktok_live=False, dry_run=True, handle=handle)
+    return {"offline": True, "external_calls_made": False, "owned_account_status": status}
+
+
+def check_tiktok_research_live(query: str = "AI workflow automation") -> dict:
+    status = check_tiktok_research_live_service(query=query, config=load_config(), allow_tiktok_live=False, dry_run=True)
+    return {"offline": True, "external_calls_made": False, "research_status": status}
+
+
 def normalize_discovery_candidates(candidates: list[dict]) -> dict:
     normalized = [normalize_discovery_candidate(candidate) for candidate in candidates]
     return {"offline": True, "external_calls_made": False, "normalized_candidates": to_plain_dict(normalized)}
@@ -335,6 +404,27 @@ def normalize_discovery_candidates(candidates: list[dict]) -> dict:
 
 def run_growth_engine_dry_run(product_text: str = DEFAULT_PRODUCT_CONTEXT, owned_tiktok: str = "") -> dict:
     growth_brief = run_growth_engine(product_text=product_text, owned_tiktok=owned_tiktok or None)
+    return {
+        "offline": True,
+        "external_calls_made": False,
+        "safety_status": growth_brief.safety_status,
+        "growth_brief": to_plain_dict(growth_brief),
+    }
+
+
+def run_growth_engine_with_provider_dry_run(
+    product_text: str = DEFAULT_PRODUCT_CONTEXT,
+    discovery_provider: str = "exa",
+    owned_tiktok: str = "",
+) -> dict:
+    growth_brief = run_growth_engine(
+        product_text=product_text,
+        owned_tiktok=owned_tiktok or None,
+        discovery_provider=discovery_provider,
+        allow_external_discovery=False,
+        allow_tiktok_live=False,
+        allow_owned_tiktok_live=False,
+    )
     return {
         "offline": True,
         "external_calls_made": False,
@@ -400,8 +490,16 @@ TOOL_REGISTRY: dict[str, Callable] = {
     "list_discovery_providers": list_discovery_providers,
     "check_discovery_provider": check_discovery_provider,
     "run_discovery_provider_dry_run": run_discovery_provider_dry_run,
+    "build_live_discovery_request": build_live_discovery_request,
+    "run_live_discovery_dry_run": run_live_discovery_dry_run,
+    "check_live_discovery_provider": check_live_discovery_provider,
+    "build_tiktok_oauth_url": build_tiktok_oauth_url,
+    "check_tiktok_oauth_config": check_tiktok_oauth_config,
+    "check_tiktok_owned_account_live": check_tiktok_owned_account_live,
+    "check_tiktok_research_live": check_tiktok_research_live,
     "normalize_discovery_candidates": normalize_discovery_candidates,
     "run_growth_engine_dry_run": run_growth_engine_dry_run,
+    "run_growth_engine_with_provider_dry_run": run_growth_engine_with_provider_dry_run,
     "build_growth_brief": build_growth_brief,
     "build_notion_pipeline_payload": build_notion_pipeline_payload,
     "ingest_performance_feedback_manual": ingest_performance_feedback_manual,

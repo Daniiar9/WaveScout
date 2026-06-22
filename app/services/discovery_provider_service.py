@@ -33,26 +33,26 @@ def list_discovery_providers(config: AppConfig | None = None) -> list[DiscoveryP
             safety_notes=["No external calls.", "No scraping."],
         ),
         DiscoveryProvider(
-            id="provider_exa_placeholder",
-            name="exa_placeholder",
-            provider_type="exa_placeholder",
+            id="provider_exa",
+            name="exa",
+            provider_type="exa",
             supports_live=True,
             requires_external_calls=True,
             required_env_vars=["EXA_API_KEY"],
             status="blocked",
-            reason="External provider placeholder. Live mode is not implemented.",
-            safety_notes=["Requires explicit future approval.", "Dry-run payloads only."],
+            reason="External search provider is live-gated. Live mode is blocked until explicit flags, env, and schema review pass.",
+            safety_notes=["Requires explicit future approval.", "Dry-run payloads by default.", "No TikTok scraping."],
         ),
         DiscoveryProvider(
-            id="provider_serp_placeholder",
-            name="serp_placeholder",
-            provider_type="serp_placeholder",
+            id="provider_serp",
+            name="serp",
+            provider_type="serp",
             supports_live=True,
             requires_external_calls=True,
             required_env_vars=["SERP_API_KEY"],
             status="blocked",
-            reason="External search provider placeholder. Live mode is not implemented.",
-            safety_notes=["Requires explicit future approval.", "Dry-run payloads only."],
+            reason="External search provider is live-gated. Live mode is blocked until explicit flags, env, and schema review pass.",
+            safety_notes=["Requires explicit future approval.", "Dry-run payloads by default.", "No TikTok scraping."],
         ),
         DiscoveryProvider(
             id="provider_tiktok_research_placeholder",
@@ -164,4 +164,3 @@ def _bullets(values: list[str]) -> str:
     if not values:
         return "- None."
     return "\n".join(values)
-

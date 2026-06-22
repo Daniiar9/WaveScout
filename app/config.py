@@ -39,6 +39,7 @@ class AppConfig:
     tiktok_access_token: str = ""
     tiktok_refresh_token: str = ""
     tiktok_open_id: str = ""
+    tiktok_scopes: str = ""
     tiktok_approved_scopes: str = ""
     tiktok_live_post_confirm: bool = False
     tiktok_live_research_confirm: bool = False
@@ -46,7 +47,11 @@ class AppConfig:
     wavescout_offline_mode: bool = True
     wavescout_demo_mode: bool = True
     wavescout_allow_external_calls: bool = False
+    wavescout_allow_tiktok_live: bool = False
+    wavescout_allow_content_posting: bool = False
     wavescout_export_artifacts: bool = False
+    exa_api_key: str = ""
+    serp_api_key: str = ""
     data_dir: Path = DATA_DIR
     artifacts_dir: Path = ARTIFACTS_DIR
 
@@ -68,6 +73,7 @@ def load_config() -> AppConfig:
         tiktok_access_token=os.getenv("TIKTOK_ACCESS_TOKEN", ""),
         tiktok_refresh_token=os.getenv("TIKTOK_REFRESH_TOKEN", ""),
         tiktok_open_id=os.getenv("TIKTOK_OPEN_ID", ""),
+        tiktok_scopes=os.getenv("TIKTOK_SCOPES", ""),
         tiktok_approved_scopes=os.getenv("TIKTOK_APPROVED_SCOPES", ""),
         tiktok_live_post_confirm=env_bool("TIKTOK_LIVE_POST_CONFIRM", False),
         tiktok_live_research_confirm=env_bool("TIKTOK_LIVE_RESEARCH_CONFIRM", False),
@@ -75,5 +81,9 @@ def load_config() -> AppConfig:
         wavescout_offline_mode=env_bool("WAVESCOUT_OFFLINE_MODE", True),
         wavescout_demo_mode=env_bool("WAVESCOUT_DEMO_MODE", True),
         wavescout_allow_external_calls=env_bool("WAVESCOUT_ALLOW_EXTERNAL_CALLS", False),
+        wavescout_allow_tiktok_live=env_bool("WAVESCOUT_ALLOW_TIKTOK_LIVE", False),
+        wavescout_allow_content_posting=env_bool("WAVESCOUT_ALLOW_CONTENT_POSTING", False),
         wavescout_export_artifacts=env_bool("WAVESCOUT_EXPORT_ARTIFACTS", False),
+        exa_api_key=os.getenv("EXA_API_KEY", ""),
+        serp_api_key=os.getenv("SERP_API_KEY", ""),
     )

@@ -128,7 +128,7 @@ def parse_approved_scopes(scope_string: str) -> list[str]:
 
 def build_tiktok_capability_report(config: AppConfig | None = None) -> TikTokCapabilityReport:
     config = config or load_config()
-    approved_scopes = parse_approved_scopes(config.tiktok_approved_scopes)
+    approved_scopes = parse_approved_scopes(",".join([config.tiktok_scopes, config.tiktok_approved_scopes]))
     capabilities = [_build_capability(spec, config, approved_scopes) for spec in CAPABILITY_SPECS]
     return TikTokCapabilityReport(
         capabilities=capabilities,
@@ -359,4 +359,3 @@ def _bullets(values: list[str]) -> str:
     if not values:
         return "- None."
     return "\n".join(f"- {value}" for value in values)
-

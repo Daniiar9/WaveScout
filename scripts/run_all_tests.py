@@ -32,6 +32,15 @@ COMMANDS = [
     ["scripts/test_notion_pipeline_builder.py"],
     ["scripts/test_feedback_loop.py"],
     ["scripts/test_growth_engine_mcp_tools.py"],
+    ["scripts/test_live_discovery_gate.py"],
+    ["scripts/test_exa_discovery_provider.py"],
+    ["scripts/test_serp_discovery_provider.py"],
+    ["scripts/test_tiktok_oauth_service.py"],
+    ["scripts/test_tiktok_display_live.py"],
+    ["scripts/test_tiktok_research_live.py"],
+    ["scripts/test_content_posting_blocked.py"],
+    ["scripts/test_growth_engine_live_gates.py"],
+    ["scripts/test_live_integration_mcp_tools.py"],
     ["-m", "compileall", "app", "scripts"],
 ]
 

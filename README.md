@@ -31,7 +31,8 @@ A qualified creator is not just someone who talks about AI. A qualified creator 
 - No TikTok DM automation.
 - No mass messaging.
 - No automatic proposal sending.
-- No live TikTok API calls in V0.
+- No live TikTok API calls by default.
+- No TikTok Content Posting.
 - No secret printing.
 - No `.env` changes.
 
@@ -42,6 +43,8 @@ V0 defaults are offline and demo-first:
 - `WAVESCOUT_OFFLINE_MODE=true`
 - `WAVESCOUT_DEMO_MODE=true`
 - `WAVESCOUT_ALLOW_EXTERNAL_CALLS=false`
+- `WAVESCOUT_ALLOW_TIKTOK_LIVE=false`
+- `WAVESCOUT_ALLOW_CONTENT_POSTING=false`
 - `NOTION_SYNC_CONFIRM=false`
 - `TIKTOK_OFFICIAL_API_ENABLED=false`
 
@@ -49,6 +52,7 @@ All outreach is draft-only:
 
 - `send_allowed=false`
 - `approval_required=true`
+- `human_review_required=true`
 
 ## Run The Demo
 
@@ -114,6 +118,14 @@ WaveScout exposes local safe tools for:
 - building outreach packets
 - dry-running Notion sync
 - running a wave scout ranking
+- building live discovery requests
+- running live discovery dry-runs
+- checking live discovery provider gates
+- building TikTok OAuth URLs
+- checking TikTok OAuth config
+- checking TikTok owned-account live gate
+- checking TikTok Research API live gate
+- running the Growth Engine with a provider dry-run
 
 The MCP server uses FastMCP if it is installed. Without FastMCP, the tool functions still import and run directly.
 
@@ -158,6 +170,29 @@ python scripts/build_tiktok_oauth_url.py --scopes "user.info.basic,video.list"
 
 The OAuth helper prints setup guidance only. It does not open a browser, exchange tokens, or store tokens.
 
+## Live Integrations Gate
+
+WaveScout includes a live-gated provider layer for future approved integrations:
+
+- `exa` and `serp` generate safe search-provider payloads.
+- TikTok OAuth setup builds a manual authorization URL.
+- TikTok Display API checks are scoped to authenticated owned-account analysis.
+- TikTok Research API checks are blocked unless approval, scopes, and live flags exist.
+- TikTok Content Posting remains intentionally blocked.
+
+Dry-run checks:
+
+```bash
+python scripts/tiktok_oauth_setup.py --scopes "user.info.basic,video.list" --dry-run
+python scripts/tiktok_owned_account_check.py --dry-run
+python scripts/tiktok_research_discovery_check.py --dry-run
+python scripts/run_growth_engine.py --product-text "An AI workspace that connects your apps so you can ask questions across your stack and turn answers into workflows." --discovery-provider exa --out artifacts/growth_brief.md --json-out artifacts/growth_brief.json
+```
+
+The live gate never scrapes TikTok, never uses browser automation, never sends DMs, never sends messages, and never posts content.
+
+See [docs/integrations/live_discovery_gate.md](docs/integrations/live_discovery_gate.md), [docs/integrations/search_provider_setup.md](docs/integrations/search_provider_setup.md), [docs/integrations/tiktok_oauth_setup.md](docs/integrations/tiktok_oauth_setup.md), [docs/integrations/tiktok_display_live_setup.md](docs/integrations/tiktok_display_live_setup.md), [docs/integrations/tiktok_research_live_setup.md](docs/integrations/tiktok_research_live_setup.md), and [docs/integrations/blocked_actions_policy.md](docs/integrations/blocked_actions_policy.md).
+
 ## Product-Led Scout Planner
 
 WaveScout can now start from product text or a product URL placeholder and generate a creator hunting strategy before manual research begins.
@@ -180,6 +215,15 @@ python scripts/run_growth_engine.py --product-text "An AI workspace that connect
 ```
 
 The engine is dry-run by default. It does not scrape TikTok, automate browsers, send DMs, send messages, live-post, or write to Notion unless future explicit confirmation paths are added and reviewed.
+
+Provider options:
+
+```bash
+python scripts/run_growth_engine.py --product-text "..." --discovery-provider dry_run_search
+python scripts/run_growth_engine.py --product-text "..." --discovery-provider exa
+python scripts/run_growth_engine.py --product-text "..." --discovery-provider serp
+python scripts/run_growth_engine.py --product-text "..." --discovery-provider tiktok_research
+```
 
 ## Project Layout
 

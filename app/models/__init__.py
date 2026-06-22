@@ -10,6 +10,7 @@ from app.models.creator_search_strategy import CreatorSearchStrategy
 from app.models.discovery_candidate import DiscoveryCandidate
 from app.models.discovery_provider import DiscoveryCandidateNormalized, DiscoveryProvider, DiscoveryRunResult
 from app.models.growth_brief import GrowthBrief
+from app.models.live_discovery import LiveDiscoveryRequest, LiveDiscoveryResponse
 from app.models.notion_sync_result import NotionSyncResult
 from app.models.owned_tiktok_profile import OwnedTikTokProfile
 from app.models.outreach_packet import OutreachPacket
@@ -39,6 +40,8 @@ __all__ = [
     "DiscoveryProvider",
     "DiscoveryRunResult",
     "GrowthBrief",
+    "LiveDiscoveryRequest",
+    "LiveDiscoveryResponse",
     "NotionSyncResult",
     "OwnedTikTokProfile",
     "OutreachPacket",

@@ -6,6 +6,22 @@
 python scripts/run_growth_engine.py --product-text "An AI workspace that connects your apps so you can ask questions across your stack and turn answers into workflows." --owned-tiktok "@demoapp" --out artifacts/growth_brief.md --json-out artifacts/growth_brief.json
 ```
 
+## Run With A Provider Gate
+
+```bash
+python scripts/run_growth_engine.py --product-text "An AI workspace that connects your apps so you can ask questions across your stack and turn answers into workflows." --discovery-provider exa --out artifacts/growth_brief.md --json-out artifacts/growth_brief.json
+```
+
+This produces safe provider payloads and blocked live-mode status unless explicit live gates are configured.
+
+## Check TikTok Gates
+
+```bash
+python scripts/tiktok_oauth_setup.py --scopes "user.info.basic,video.list" --dry-run
+python scripts/tiktok_owned_account_check.py --dry-run
+python scripts/tiktok_research_discovery_check.py --dry-run
+```
+
 ## Add Imported Creator Data
 
 ```bash
@@ -29,5 +45,5 @@ Open the Growth Brief, inspect the candidate shortlist, and only manually contac
 - TikTok DMs.
 - Message sending.
 - Live posting.
+- Content Posting API publishing.
 - Live Notion writes by default.
-

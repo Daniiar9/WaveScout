@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from app.config import load_config
 from app.models import (
     CreatorCandidate,
     CreatorContentSample,
@@ -13,10 +14,13 @@ from app.models.common import to_plain_dict
 from app.services.discovery_candidate_normalizer import normalize_discovery_candidate
 from app.services.discovery_dedupe import dedupe_discovery_candidates, rank_discovery_candidates_initial
 from app.services.discovery_provider_service import list_discovery_providers, run_discovery_provider_dry_run
+from app.services.live_discovery_gate import build_live_discovery_request, run_live_discovery_request
 from app.services.notion_pipeline_builder import build_notion_pipeline_payloads
 from app.services.outreach_packet_builder import build_creator_intelligence_packet
 from app.services.scout_planner import build_scout_run_plan
 from app.services.storage import LocalJSONStorage, coerce_dataclass
+from app.services.tiktok_owned_account_live import check_tiktok_owned_account_live
+from app.services.tiktok_research_discovery import check_tiktok_research_live
 from app.services.text import normalize_handle, stable_id
 
 
@@ -33,7 +37,10 @@ def run_growth_engine(
     top_creators: int = 5,
     dry_run: bool = True,
     allow_fetch: bool = False,
+    discovery_provider: str = "dry_run_search",
     allow_external_discovery: bool = False,
+    allow_tiktok_live: bool = False,
+    allow_owned_tiktok_live: bool = False,
 ) -> GrowthBrief:
     if not product_text and not product_url:
         raise ValueError("Product input is required. Provide product_text or product_url.")
@@ -45,7 +52,8 @@ def run_growth_engine(
         owned_comments=owned_comments,
         allow_fetch=allow_fetch,
     )
-    providers = list_discovery_providers()
+    config = load_config()
+    providers = list_discovery_providers(config)
     run_results = [
         run_discovery_provider_dry_run(provider, scout_plan.search_strategy, discovery_limit, scout_plan.id)
         for provider in providers
@@ -60,7 +68,31 @@ def run_growth_engine(
     content_samples = _load_content(imported_content)
     comments = _load_comments(imported_comments)
     raw_candidates.extend(_candidates_from_imported_creators(creators, scout_plan))
+    live_discovery_response = None
+    if discovery_provider in {"exa", "serp", "dry_run_search", "manual"}:
+        live_request = build_live_discovery_request(
+            scout_plan.search_strategy,
+            provider=discovery_provider,
+            limit=discovery_limit,
+            allow_external=allow_external_discovery,
+            dry_run=not allow_external_discovery,
+        )
+        live_discovery_response = run_live_discovery_request(live_request, config)
+    tiktok_research_status = check_tiktok_research_live(
+        query=scout_plan.search_strategy.search_queries[0] if scout_plan.search_strategy.search_queries else "",
+        config=config,
+        allow_tiktok_live=allow_tiktok_live and discovery_provider == "tiktok_research",
+        dry_run=not (allow_tiktok_live and discovery_provider == "tiktok_research"),
+    )
+    owned_tiktok_live_status = check_tiktok_owned_account_live(
+        config=config,
+        allow_tiktok_live=allow_tiktok_live and allow_owned_tiktok_live,
+        dry_run=not (allow_tiktok_live and allow_owned_tiktok_live),
+        handle=owned_tiktok or "@owned_account",
+    )
     normalized = [normalize_discovery_candidate(candidate) for candidate in raw_candidates]
+    if live_discovery_response:
+        normalized.extend(live_discovery_response.normalized_candidates)
     ranked_candidates = rank_discovery_candidates_initial(dedupe_discovery_candidates(normalized), scout_plan.search_strategy)
     packets = _build_packets_for_imported_creators(
         creators,
@@ -80,8 +112,10 @@ def run_growth_engine(
         "human_review_required": True,
         "notion_write": False,
         "dry_run": True,
+        "content_posting_supported": False,
     }
     discovery_summary = {
+        "selected_provider": discovery_provider,
         "providers_checked": len(providers),
         "dry_run_payloads": sum(len(result.payload.get("dry_run_payloads", [])) for result in run_results),
         "candidates_from_manual_import": len(creators),
@@ -89,6 +123,18 @@ def run_growth_engine(
         "normalized_candidates": len(ranked_candidates),
         "creator_packets": len(packets),
         "external_calls": False,
+        "live_discovery_status": _live_discovery_status(live_discovery_response),
+        "provider_capability_status": _provider_capability_status(live_discovery_response, discovery_provider),
+        "owned_tiktok_live_status": _compact_status(owned_tiktok_live_status),
+        "tiktok_research_status": _compact_status(tiktok_research_status),
+        "blocked_actions": [
+            "TikTok scraping",
+            "Browser automation",
+            "TikTok DM/send",
+            "Live posting/publishing",
+            "Outbound automation",
+        ],
+        "candidate_status_counts": _candidate_status_counts(ranked_candidates, creators, content_samples, comments),
     }
     missing_data = _missing_data(creators, content_samples, comments, ranked_candidates)
     growth_brief = GrowthBrief(
@@ -229,6 +275,78 @@ def _candidates_needing_enrichment(
         for creator in creators
         if creator.id not in content_creator_ids or creator.id not in comment_creator_ids
     )
+
+
+def _live_discovery_status(response) -> dict:
+    if response is None:
+        return {
+            "provider": "none",
+            "dry_run": True,
+            "external_calls": False,
+            "blocked_reason": "No live discovery provider selected.",
+            "payloads": 0,
+            "normalized_candidates": 0,
+        }
+    return {
+        "provider": response.provider,
+        "dry_run": response.dry_run,
+        "external_calls": response.external_calls,
+        "blocked_reason": response.blocked_reason,
+        "payloads": len(response.payloads),
+        "normalized_candidates": len(response.normalized_candidates),
+    }
+
+
+def _provider_capability_status(response, provider: str) -> dict:
+    if response is None:
+        return {
+            "provider": provider,
+            "status": "not_selected",
+            "external_calls": False,
+        }
+    status = "blocked" if response.blocked_reason else "dry_run_only"
+    return {
+        "provider": response.provider,
+        "status": status,
+        "external_calls": response.external_calls,
+        "reason": response.blocked_reason or "Dry-run provider payload generated.",
+    }
+
+
+def _compact_status(status: dict) -> dict:
+    keys = [
+        "provider",
+        "dry_run",
+        "blocked",
+        "blocked_reason",
+        "external_calls",
+        "tiktok_live_calls",
+        "required_scopes",
+        "missing_scopes",
+    ]
+    return {key: status.get(key) for key in keys if key in status}
+
+
+def _candidate_status_counts(
+    candidates: list[DiscoveryCandidateNormalized],
+    creators: list[CreatorCandidate],
+    content_samples: list[CreatorContentSample],
+    comments: list[dict],
+) -> dict:
+    content_creator_ids = {sample.creator_id for sample in content_samples}
+    comment_creator_ids = {comment.get("creator_id") for comment in comments}
+    ready_for_packet = sum(
+        1
+        for creator in creators
+        if creator.id in content_creator_ids and creator.id in comment_creator_ids
+    )
+    return {
+        "discovered": len(candidates),
+        "needs_manual_review": sum(1 for candidate in candidates if candidate.requires_manual_review),
+        "needs_content_samples": sum(1 for creator in creators if creator.id not in content_creator_ids),
+        "needs_comment_intelligence": sum(1 for creator in creators if creator.id not in comment_creator_ids),
+        "ready_for_packet": ready_for_packet,
+    }
 
 
 def _content_recommendations(scout_plan, packets) -> list[str]:

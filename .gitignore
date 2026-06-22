@@ -23,9 +23,11 @@ secrets.*
 artifacts/
 
 data/local_*.json
+data/local_tokens/
 data/imported_*.json
 data/*.db
 data/*.sqlite
 data/*.sqlite3
+*.token.json
 
 data/real_research/
