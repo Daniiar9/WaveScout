@@ -3,6 +3,9 @@ from __future__ import annotations
 from typing import Callable
 
 from app.config import DEFAULT_PRODUCT_CONTEXT, load_config
+from app.adapters.tiktok_content_posting_api import direct_post_video_dry_run
+from app.adapters.tiktok_display_api import get_user_info_dry_run
+from app.adapters.tiktok_research_api import query_videos_dry_run as research_query_videos_dry_run
 from app.models.common import to_plain_dict
 from app.services import creator_discovery
 from app.services import trend_wave_service
@@ -20,6 +23,12 @@ from app.services.outreach_packet_builder import build_outreach_packet as build_
 from app.services.outreach_packet_builder import creator_packet_contract
 from app.services.proposal_generator import generate_creator_proposal as generate_proposal_service
 from app.services.storage import LocalJSONStorage
+from app.services.tiktok_capability_service import (
+    build_oauth_setup_instructions,
+    build_tiktok_capability_report,
+    check_capability as check_tiktok_capability_service,
+    parse_approved_scopes,
+)
 
 
 def list_trend_waves() -> dict:
@@ -192,6 +201,46 @@ def run_wave_scout(
     }
 
 
+def check_tiktok_capabilities() -> dict:
+    report = build_tiktok_capability_report(load_config())
+    return {
+        "offline": True,
+        "external_calls_made": False,
+        "tiktok_scraping": False,
+        "tiktok_dm_send": False,
+        "report": to_plain_dict(report),
+    }
+
+
+def get_tiktok_capability(name: str) -> dict:
+    capability = check_tiktok_capability_service(name, load_config())
+    return {
+        "offline": True,
+        "external_calls_made": False,
+        "capability": to_plain_dict(capability),
+    }
+
+
+def build_tiktok_oauth_setup_instructions(requested_scopes: str | list[str] = "user.info.basic,video.list") -> dict:
+    scopes = parse_approved_scopes(requested_scopes) if isinstance(requested_scopes, str) else requested_scopes
+    return build_oauth_setup_instructions(scopes)
+
+
+def tiktok_display_user_info_dry_run() -> dict:
+    return get_user_info_dry_run(load_config())
+
+
+def tiktok_research_query_dry_run(query: dict | None = None, fields: list[str] | None = None) -> dict:
+    return research_query_videos_dry_run(query or {}, fields, load_config())
+
+
+def tiktok_content_post_dry_run(payload: dict | None = None) -> dict:
+    result = direct_post_video_dry_run(payload or {}, load_config())
+    result["live_post_allowed"] = False
+    result["human_approval_required"] = True
+    return result
+
+
 TOOL_REGISTRY: dict[str, Callable] = {
     "list_trend_waves": list_trend_waves,
     "create_trend_wave": create_trend_wave,
@@ -208,6 +257,12 @@ TOOL_REGISTRY: dict[str, Callable] = {
     "sync_creator_to_notion": sync_creator_to_notion,
     "sync_outreach_packet_to_notion": sync_outreach_packet_to_notion,
     "run_wave_scout": run_wave_scout,
+    "check_tiktok_capabilities": check_tiktok_capabilities,
+    "get_tiktok_capability": get_tiktok_capability,
+    "build_tiktok_oauth_setup_instructions": build_tiktok_oauth_setup_instructions,
+    "tiktok_display_user_info_dry_run": tiktok_display_user_info_dry_run,
+    "tiktok_research_query_dry_run": tiktok_research_query_dry_run,
+    "tiktok_content_post_dry_run": tiktok_content_post_dry_run,
 }
 
 

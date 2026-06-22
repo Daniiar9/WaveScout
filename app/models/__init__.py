@@ -9,6 +9,12 @@ from app.models.creator_proposal import CreatorProposal
 from app.models.notion_sync_result import NotionSyncResult
 from app.models.outreach_packet import OutreachPacket
 from app.models.trend_wave import TrendWave
+from app.models.tiktok_capability import (
+    TikTokActionGate,
+    TikTokCapability,
+    TikTokCapabilityReport,
+    TikTokScopeRequirement,
+)
 
 __all__ = [
     "AudienceProfile",
@@ -22,5 +28,8 @@ __all__ = [
     "NotionSyncResult",
     "OutreachPacket",
     "TrendWave",
+    "TikTokActionGate",
+    "TikTokCapability",
+    "TikTokCapabilityReport",
+    "TikTokScopeRequirement",
 ]
-

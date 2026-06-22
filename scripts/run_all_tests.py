@@ -16,6 +16,9 @@ COMMANDS = [
     ["scripts/test_notion_sync_dryrun.py"],
     ["scripts/test_mcp_tools_import.py"],
     ["scripts/test_real_creator_import_workflow.py"],
+    ["scripts/test_tiktok_capability_service.py"],
+    ["scripts/test_tiktok_adapters_dryrun.py"],
+    ["scripts/test_tiktok_mcp_tools.py"],
     ["-m", "compileall", "app", "scripts"],
 ]
 

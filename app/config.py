@@ -30,8 +30,19 @@ class AppConfig:
     notion_tiktok_outreach_database_id: str = ""
     notion_sync_confirm: bool = False
     tiktok_official_api_enabled: bool = False
+    tiktok_display_api_enabled: bool = False
+    tiktok_research_api_enabled: bool = False
+    tiktok_content_posting_api_enabled: bool = False
     tiktok_client_key: str = ""
     tiktok_client_secret: str = ""
+    tiktok_redirect_uri: str = ""
+    tiktok_access_token: str = ""
+    tiktok_refresh_token: str = ""
+    tiktok_open_id: str = ""
+    tiktok_approved_scopes: str = ""
+    tiktok_live_post_confirm: bool = False
+    tiktok_live_research_confirm: bool = False
+    tiktok_live_display_confirm: bool = False
     wavescout_offline_mode: bool = True
     wavescout_demo_mode: bool = True
     wavescout_allow_external_calls: bool = False
@@ -48,11 +59,21 @@ def load_config() -> AppConfig:
         notion_tiktok_outreach_database_id=os.getenv("NOTION_TIKTOK_OUTREACH_DATABASE_ID", ""),
         notion_sync_confirm=env_bool("NOTION_SYNC_CONFIRM", False),
         tiktok_official_api_enabled=env_bool("TIKTOK_OFFICIAL_API_ENABLED", False),
+        tiktok_display_api_enabled=env_bool("TIKTOK_DISPLAY_API_ENABLED", False),
+        tiktok_research_api_enabled=env_bool("TIKTOK_RESEARCH_API_ENABLED", False),
+        tiktok_content_posting_api_enabled=env_bool("TIKTOK_CONTENT_POSTING_API_ENABLED", False),
         tiktok_client_key=os.getenv("TIKTOK_CLIENT_KEY", ""),
         tiktok_client_secret=os.getenv("TIKTOK_CLIENT_SECRET", ""),
+        tiktok_redirect_uri=os.getenv("TIKTOK_REDIRECT_URI", ""),
+        tiktok_access_token=os.getenv("TIKTOK_ACCESS_TOKEN", ""),
+        tiktok_refresh_token=os.getenv("TIKTOK_REFRESH_TOKEN", ""),
+        tiktok_open_id=os.getenv("TIKTOK_OPEN_ID", ""),
+        tiktok_approved_scopes=os.getenv("TIKTOK_APPROVED_SCOPES", ""),
+        tiktok_live_post_confirm=env_bool("TIKTOK_LIVE_POST_CONFIRM", False),
+        tiktok_live_research_confirm=env_bool("TIKTOK_LIVE_RESEARCH_CONFIRM", False),
+        tiktok_live_display_confirm=env_bool("TIKTOK_LIVE_DISPLAY_CONFIRM", False),
         wavescout_offline_mode=env_bool("WAVESCOUT_OFFLINE_MODE", True),
         wavescout_demo_mode=env_bool("WAVESCOUT_DEMO_MODE", True),
         wavescout_allow_external_calls=env_bool("WAVESCOUT_ALLOW_EXTERNAL_CALLS", False),
         wavescout_export_artifacts=env_bool("WAVESCOUT_EXPORT_ARTIFACTS", False),
     )
-

@@ -131,6 +131,33 @@ python scripts/score_imported_creators.py --top 5 --out artifacts/imported_creat
 python scripts/export_creator_packets.py --top 10 --out-dir artifacts/creator_packets
 ```
 
+## TikTok Connector Readiness
+
+WaveScout includes official TikTok API readiness checks without enabling live calls by default. The readiness layer maps Display API, Research API, and Content Posting API capabilities, checks required scopes/config flags, and exposes dry-run adapters for future approved integration work.
+
+It does not add scraping, browser automation, TikTok DM automation, message sending, token exchange, or live API calls.
+
+Run:
+
+```bash
+python scripts/check_tiktok_capabilities.py
+```
+
+This writes `artifacts/tiktok_capability_report.md` and reports:
+
+- external calls: false
+- TikTok scraping: false
+- TikTok DM/send: false
+- live post allowed: false
+
+Future OAuth/scopes work should start with:
+
+```bash
+python scripts/build_tiktok_oauth_url.py --scopes "user.info.basic,video.list"
+```
+
+The OAuth helper prints setup guidance only. It does not open a browser, exchange tokens, or store tokens.
+
 ## Project Layout
 
 ```text
